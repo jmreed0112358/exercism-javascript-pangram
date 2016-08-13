@@ -1,6 +1,8 @@
 var Pangram = require('./pangram');
 
-describe('Pangram()', function()  {
+const UNPRINTABLE_CHARS = '\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\b\t\n\u000b\f\r\u000e\u000f\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f';
+
+xdescribe('Pangram()', function()  {
 
   it('empty sentence', function() {
     var pangram = new Pangram('');
@@ -46,5 +48,37 @@ describe('Pangram()', function()  {
     var pangram = new Pangram("Victor jagt zwölf Boxkämpfer quer über den großen Sylter Deich.");
     expect(pangram.isPangram()).toBe(true);
   });
+});
 
+describe('sanitize()', function() {
+
+  it('tokenizes, returns the expected result', function() {
+    var actual = words.sanitize('Foo Bar');
+    var expected = 'foo bar';
+    expect(actual).toEqual(expected);
+  });
+
+  it('input contains extra whitespace, returns expected input', function() {
+    var actual = words.sanitize('  Foo   Bar   ');
+    var expected = 'foo bar';
+    expect(actual).toEqual(expected);
+  });
+
+  it('input contains unicode, returns expected input', function() {
+    var actual = words.sanitize('¡Hola! ¿Qué tal? Привет! Iñtërnâtiônàlizætiøn☃');
+    var expected = '¡hola! ¿qué tal? привет! iñtërnâtiônàlizætiøn☃';
+    expect(actual).toEqual(expected);
+  });
+
+  it('input contains unprintable characters, returns expected input', function() {
+    var actual = words.sanitize( UNPRINTABLE_CHARS + 'Foo Bar');
+    var expected = 'foo bar';
+    expect(actual).toEqual(expected);
+  });
+
+  it('input contains unprintable characters, returns expected input', function() {
+    var actual = words.sanitize( UNPRINTABLE_CHARS + '¡Hola! ¿Qué tal? Привет! Iñtërnâtiônàlizætiøn☃');
+    var expected = '¡hola! ¿qué tal? привет! iñtërnâtiônàlizætiøn☃';
+    expect(actual).toEqual(expected);
+  });
 });
