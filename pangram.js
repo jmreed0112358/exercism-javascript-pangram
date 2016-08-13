@@ -3,12 +3,33 @@ var xregexp = require('xregexp'),
   NotImplementedException = require('./exceptions/NotImplementedException.js'),
   InvalidParameterException = require('./exceptions/InvalidParameterException.js');
 
+const ALPHABET = 'abcdefghijklmnoqprstuvwxyz';
+
 var Pangram = function(sentence) {
-  this.sentence = sentence;
+  this.sentence = this.sanitize(sentence);
 };
 
 Pangram.prototype.isPangram = function() {
-  throw new NotImplementedException();
+  var results = {},
+    i = 0;
+
+  if (this.sentence.length === 0) {
+    return false;
+  }
+
+  for (i = 0 ; i < this.sentence.length ; i++ ) {
+    if (results[this.sentence[i]] === undefined) {
+      results[this.sentence[i]] = true;
+    }
+  }
+
+  for (i = 0 ; i < ALPHABET.length ; i++) {
+    if (results[ALPHABET[i]] === undefined) {
+      return false;
+    }
+  }
+
+  return true;
 };
 
 /*
