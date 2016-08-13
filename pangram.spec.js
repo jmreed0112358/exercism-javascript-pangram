@@ -53,31 +53,36 @@ xdescribe('Pangram()', function()  {
 describe('sanitize()', function() {
 
   it('tokenizes, returns the expected result', function() {
-    var actual = words.sanitize('Foo Bar');
+    var pangram = new Pangram('');
+    var actual = pangram.sanitize('Foo Bar');
     var expected = 'foo bar';
     expect(actual).toEqual(expected);
   });
 
   it('input contains extra whitespace, returns expected input', function() {
-    var actual = words.sanitize('  Foo   Bar   ');
+    var pangram = new Pangram('');
+    var actual = pangram.sanitize('  Foo   Bar   ');
     var expected = 'foo bar';
     expect(actual).toEqual(expected);
   });
 
   it('input contains unicode, returns expected input', function() {
-    var actual = words.sanitize('¡Hola! ¿Qué tal? Привет! Iñtërnâtiônàlizætiøn☃');
+    var pangram = new Pangram('');
+    var actual = pangram.sanitize('¡Hola! ¿Qué tal? Привет! Iñtërnâtiônàlizætiøn☃');
     var expected = '¡hola! ¿qué tal? привет! iñtërnâtiônàlizætiøn☃';
     expect(actual).toEqual(expected);
   });
 
   it('input contains unprintable characters, returns expected input', function() {
-    var actual = words.sanitize( UNPRINTABLE_CHARS + 'Foo Bar');
+    var pangram = new Pangram('');
+    var actual = pangram.sanitize( UNPRINTABLE_CHARS + 'Foo Bar');
     var expected = 'foo bar';
     expect(actual).toEqual(expected);
   });
 
   it('input contains unprintable characters, returns expected input', function() {
-    var actual = words.sanitize( UNPRINTABLE_CHARS + '¡Hola! ¿Qué tal? Привет! Iñtërnâtiônàlizætiøn☃');
+    var pangram = new Pangram('');
+    var actual = pangram.sanitize( UNPRINTABLE_CHARS + '¡Hola! ¿Qué tal? Привет! Iñtërnâtiônàlizætiøn☃');
     var expected = '¡hola! ¿qué tal? привет! iñtërnâtiônàlizætiøn☃';
     expect(actual).toEqual(expected);
   });
